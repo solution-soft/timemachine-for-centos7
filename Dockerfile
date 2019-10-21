@@ -1,5 +1,8 @@
 FROM centos:centos7
 
+LABEL vendor="SolutionSoft Systems, Inc"
+LABEL maintainer="kzhao@solution-soft.com"
+
 ENV LICHOST "172.0.0.1"
 ENV LICPORT "57777"
 ENV LICPASS "docker"
@@ -22,13 +25,13 @@ RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / --exclude="./bin" \
 &&  mkdir -p /tmdata \
 &&  rm -rf /tmp/s6-overlay-amd64.tar.gz /tmp/tm_linux.tgz /tmp/build
 
-# -- copy user defined files
+# -- S6 specific config files
 COPY config /
 
 # -- expose tmagent listening port
 EXPOSE 7800
 
-# -- specify tm data dir
+# -- where TM data stores
 VOLUME /tmdata
 
 ENTRYPOINT ["/init"]
