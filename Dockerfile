@@ -13,6 +13,9 @@ ENV LOGDIR  "log"
 ARG S6_OVERLAY_VERSION=v1.22.1.0
 ARG TM_LINUX_VERSION=12.9R3
 
+ARG DEFAULT_USER=time-traveler
+ARG DEFAULT_HOME=/home/time-traveler
+
 ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_OVERLAY_VERSION}/s6-overlay-amd64.tar.gz /tmp
 
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / --exclude="./bin" \
@@ -23,6 +26,7 @@ RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / --exclude="./bin" \
 &&  (cd /tmp/build; ./ssstm_install.sh tm_linux_2.6.up_x86_64-${TM_LINUX_VERSION}.rpm) \
 &&  (cd /etc/ssstm/extras; rm -f .tm*.tgz Makefile.re) \
 &&  mkdir -p /tmdata \
+&&  adduser -d ${DEFAULT_HOME} -s /bin/bash -M -r -c "Default Time Travel User" ${DEFAULT_USER} \
 &&  rm -rf /tmp/s6-overlay-amd64.tar.gz /tmp/tm_linux.tgz /tmp/build
 
 # -- S6 specific config files
