@@ -29,8 +29,8 @@ RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / --exclude="./bin" \
 &&  adduser -d ${DEFAULT_HOME} -s /bin/bash -M -r -c "Default Time Travel User" ${DEFAULT_USER} \
 &&  rm -rf /tmp/s6-overlay-amd64.tar.gz /tmp/tm_linux.tgz /tmp/build
 
-# -- S6 specific config files
-COPY config /
+# -- docker image build files
+COPY build /
 
 # -- expose tmagent listening port
 EXPOSE 7800
